@@ -19,9 +19,12 @@ app.get("/:company", (req, res) => {
   client
     .query(req.params.company.toUpperCase())
     .then((data) => {
-        console.log("Data: " + data.results.series);
-        if(data.results.series !== undefined){
+        // console.log("Data: " + data.results.series);
+        if(data.results[0].series !== undefined){
             res.json((data.results[0].series[0].values));
+        }
+        else {
+            res.json({message: "no valid stock base"});
         }
     })
     .catch(console.error);
