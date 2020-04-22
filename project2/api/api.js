@@ -19,7 +19,8 @@ app.get("/:company", (req, res) => {
   client
     .query(req.params.company.toUpperCase())
     .then((data) => {
-        res.json((data.results[0].series[0].values));
+        if(data !== undefined)
+            res.json((data.results[0].series[0].values));
     })
     .catch(console.error);
 });
