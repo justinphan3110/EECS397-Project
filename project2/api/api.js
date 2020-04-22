@@ -20,7 +20,7 @@ app.get("/:company", (req, res) => {
     .query(req.params.company.toUpperCase())
     .then((data) => {
         console.log("Data: " + data);
-        if(data !== undefined){
+        if(data.results !== undefined){
             res.json((data.results[0].series[0].values));
         }
     })
