@@ -29,7 +29,7 @@ app.get("/:company", (req, res) => {
             res.json((data.results[0].series[0].values));
         }
         else {
-            res.json({message: "no valid stock base"});
+            res.json({message: "no valid stock base for " + req.params.company.toUpperCase()});
         }
     })
     .catch(console.error);
