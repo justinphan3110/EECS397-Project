@@ -9,6 +9,6 @@ function stock_data {
 }
 
 echo "Content-Type: application/json"
-echo "Allow-CORS-Header: *"
+echo "Access-Control-Allow-Headers: *"
 echo
 stock_data
