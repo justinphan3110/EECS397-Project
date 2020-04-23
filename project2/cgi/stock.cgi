@@ -4,7 +4,7 @@ ENDPOINT="35.238.226.140:3001/"
 
 function stock_data {
     company = ($QUERY_STRING)
-    query="${ENDPOINT}$company"
+    query="${ENDPOINT}AMZN"
     echo $(curl -sS $query)
 }
 
