@@ -1,9 +1,10 @@
 #!/bin/bash
 
-ENDPOINT="35.238.226.140:3001/AMZN"
+ENDPOINT="35.238.226.140:3001/"
 
 function stock_data {
-    query="${ENDPOINT}"
+    q=($QUERY_STRING)
+    query="${ENDPOINT}$query"
     echo $(curl -sS $query)
 }
 
