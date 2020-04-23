@@ -15,11 +15,12 @@
         
         <script>
 
-            var prices = []
+            
 
             var frm = $('form')
             frm.submit(function(e) {
                 e.preventDefault()
+                var prices = []
                 $.ajax({
                     type: frm.attr('method'),
                     url: frm.attr('action'),
@@ -31,18 +32,23 @@
                                 console.log('An error occurred.');
                     },
                     complete: function(data){
-
+                                data.responseJSON.forEach(element => {
+                                    console.log(typeof parseFloat(element[2].replace(",", "")))
+                                    prices.push({y: parseFloat(element[2].replace(",", ""))})
+                                });;
+                                console.log(prices);
+                                initMap(prices,  frm.serialize().split("=")[1]);
                     }
                 })
-            })
-
-            window.onload = function () {
+            });
+            
+            function initMap(prices, companyName) {
             
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
                 theme: "light2",
                 title:{
-                    text: "Simple Line Chart"
+                    text: companyName + " stock"
                 },
                 axisY:{
                     includeZero: false
