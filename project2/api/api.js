@@ -14,6 +14,11 @@ app.listen(3001);
 const Influx = require("influxdb-nodejs");
 const client = new Influx("http://127.0.0.1:8086/stock");
 
+
+app.get("/test", (req, res) => {
+    res.json({"testServer": "hello world"});
+})
+
 app.get("/:company", (req, res) => {
   console.log("calling query: "+ req.params.company.toUpperCase());
   client
