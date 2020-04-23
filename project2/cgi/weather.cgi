@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ENDPOINT="35.238.226.140:3001/AMZN"
+ENDPOINT="api.openweathermap.org/data/2.5/weather?q="
 #QUERY_STRING="city=cleveland&state=ohio"
 
 function setup_keys(){
@@ -24,9 +24,13 @@ function query_map {
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
 function weather_data {
-    query="${ENDPOINT}"
+    param=$(query_map)
+    location=`join_by , $param`
+    query="${ENDPOINT}$location&appid=${API_KEY}"
     echo $(curl -sS $query)
 }
 
 echo "Content-Type: application/json"
+echo
+setup_keys
 weather_data
