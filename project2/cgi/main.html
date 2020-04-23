@@ -1,14 +1,99 @@
-<html> 
-<header>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <div id="main2">
-        <div style="background-color:coral;"></div>
-        <div style="background-color:lightblue;" id="myBlueDiv"></div>  
-        <div style="background-color:lightgreen;"></div>
-    </div>
-    <h1>Stock</h1>
-    <form enctype='application/json' id="stock" method="get" action="http://eecslab-16.case.edu/~lnp26/cgi-bin/stock.cgi">
-        <input class="company" type="text" name="company" value="FB" size="31" maxlength="255">
-        <input type="submit" value="Search for Stock value">
-    </form>
-</header>
+<!-- GMAP_EMBED_API_KEY = "AIzaSyAKfIdYEe0UzZXRP7AEIM8PzAH5Ef5gseo" -->
+
+<LINK REL=StyleSheet HREF="header.css" TYPE="text/css">
+    <LINK REL=StyleSheet HREF="main.css" TYPE="text/css">
+    <html> 
+    <header>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <div id="main2">
+            <div style="background-color:coral;"></div>
+            <div style="background-color:lightblue;" id="myBlueDiv"></div>  
+            <div style="background-color:lightgreen;"></div>
+        </div>
+        <h1>WEATHER</h1>
+        <form enctype='application/json' id="weather" method="get" action="http://eecslab-16.case.edu/~lnp26/cgi-bin/stock.cgi">
+            <input class="city" type="text" name="city" value="Cleveland" size="31" maxlength="255">
+            <input class="state" type="text" name="state" value="Ohio" size="31" maxlength="255">
+            <input type="submit" value="Search for Weather">
+        </form>
+    </header>
+    
+    <body> 
+        <div id="map"></div>
+        <script type="text/javascript">
+            var map;
+            var defaultData = {lng: -81.7, lat: 41.5, icon: '01d', desc: 'Clear sky', temp: 273};
+            function renderMap(data){
+                var iconBase = 'http://openweathermap.org/img/wn/';
+                var icons = {info: { name: 'Weather', icon: iconBase + data.icon + '@2x.png' }}
+                var loc = {lng: data.lng, lat: data.lat}
+                var map = new google.maps.Map(document.getElementById('map'), {zoom: 8, center: loc});
+                var infowindow = new google.maps.InfoWindow({
+                    content: 'Current Temperature: ' + (parseFloat(data.temp) - 273.15).toFixed(2) + ' C with ' + data.desc
+                });
+    
+                var marker = new google.maps.Marker({
+                    position: loc,
+                    icon: icons.info.icon,
+                    map: map,
+                })
+    
+                marker.addListener('click', function() {
+                    infowindow.open(map, marker);
+                });
+    
+            }
+            var defaultLoc = {lng: -81.7, lat: 41.5}
+            function initMap() {
+                // var loc = defaultD;
+                var cityData = null;
+                $(document).ready(
+                    function(){
+                        renderMap(defaultData);
+                        var frm = $('form')
+                        frm.submit(function(e){
+                            e.preventDefault()
+                            $.ajax({
+                                type: frm.attr('method'),
+                                url: frm.attr('action'),
+                                data: frm.serialize(),
+                                success: function (data) {
+                                    console.log('Submission was successful.');
+                                    cityData = {
+                                        lng: data.coord.lon,
+                                        lat: data.coord.lat,
+                                        icon: data.weather[0].icon,
+                                        desc: data.weather[0].description,
+                                        temp: data.main.temp
+                                    }
+                                    //console.log(data);
+                                    //console.log(cityData);
+                                    renderMap(cityData)
+                                },
+                                error: function (data) {
+                                    console.log('An error occurred.');
+                                    console.log(data);
+                                },
+                                complete: function(data){
+                                    console.log(data);
+                                }
+                            })
+                        })
+                    }
+                )
+                var iconBase = 'http://openweathermap.org/img/wn/';
+                var icons = {info: { name: 'Weather', icon: iconBase + '01d.png' } }
+                var map = new google.maps.Map(document.getElementById('map'), {zoom: 8, center: loc});
+                var marker = new google.maps.Marker({
+                    position: loc,
+                    icon: icons.info.icon,
+                    map: map,
+                    title: 'Current Temperature: 50F'
+                });
+            }
+        </script>
+        <br>
+    
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKfIdYEe0UzZXRP7AEIM8PzAH5Ef5gseo&callback=initMap"></script>"
+    </body>
+    
