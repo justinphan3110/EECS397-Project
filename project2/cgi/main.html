@@ -1,12 +1,61 @@
 <!-- GMAP_EMBED_API_KEY = "AIzaSyAKfIdYEe0UzZXRP7AEIM8PzAH5Ef5gseo" -->
 
-<LINK REL=StyleSheet HREF="header.css" TYPE="text/css">
-<LINK REL=StyleSheet HREF="main.css" TYPE="text/css">
     <html> 
     <header>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <h1>Stock</h1>
         <form enctype='application/json' id="stock" method="get" action="http://eecslab-16.case.edu/~lnp26/cgi-bin/stock.cgi" target="_blank">
             <input class="stock" type="text" name="stock" value="FB" size="31" maxlength="255">
             <input type="submit" value="Search for Stock">
         </form>
     </header>
+
+    <body>
+        
+        
+        <script>
+
+            var prices = []
+
+            var frm = $('form')
+            frm.submit(function(e) {
+                e.preventDefault()
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+                    success: function (data) {
+                        console.log('Submission was successful.');
+                    },
+                    error: function (data) {
+                                console.log('An error occurred.');
+                    },
+                    complete: function(data){
+
+                    }
+                })
+            })
+
+            window.onload = function () {
+            
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                theme: "light2",
+                title:{
+                    text: "Simple Line Chart"
+                },
+                axisY:{
+                    includeZero: false
+                },
+                data: [{        
+                    type: "line",
+                      indexLabelFontSize: 16,
+                    dataPoints: prices
+                }]
+            });
+            chart.render();
+            }
+            </script>
+            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+            <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    </body>
