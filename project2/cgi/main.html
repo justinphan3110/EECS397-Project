@@ -1,0 +1,14 @@
+<html> 
+<header>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <div id="main2">
+        <div style="background-color:coral;"></div>
+        <div style="background-color:lightblue;" id="myBlueDiv"></div>  
+        <div style="background-color:lightgreen;"></div>
+    </div>
+    <h1>Stock</h1>
+    <form enctype='application/json' id="stock" method="get" action="http://eecslab-16.case.edu/~lnp26/cgi-bin/stock.cgi">
+        <input class="company" type="text" name="company" value="FB" size="31" maxlength="255">
+        <input type="submit" value="Search for Stock value">
+    </form>
+</header>
