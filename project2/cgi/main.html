@@ -3,16 +3,17 @@
     <html> 
     <header>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
         <h1>Stock</h1>
         <form enctype='application/json' id="stock" method="get" action="http://eecslab-16.case.edu/~lnp26/cgi-bin/stock.cgi" target="_blank">
             <input class="stock" type="text" name="stock" value="FB" size="31" maxlength="255">
-            <input type="submit" value="Search for Stock">
+            <input type="submit" value="Watch Stock">
         </form>
     </header>
 
     <body>
         
-        
+        <script type="text/javascript" src="date.js"></script>
         <script>
 
             
@@ -34,7 +35,21 @@
                     complete: function(data){
                                 data.responseJSON.forEach(element => {
                                     console.log(typeof parseFloat(element[2].replace(",", "")))
-                                    prices.push({y: parseFloat(element[2].replace(",", ""))})
+                                    var date = element[0].split('T')[0];
+                                    var time = element[0].split('T')[1];
+
+                                    var year = date.split('-')[0];
+                                    var month = date.split('-')[1].replace(/^0+/, '');
+                                    var day = date.split('-')[2];
+                                                                        
+                                    var hour = time.split(':')[0];
+                                    var min = time.split(':')[1];
+                                    var s = time.split(":")[2].replace("Z", "");
+
+                                    var d = new Date(year, month - 1, day, hour, min, s)
+                                    console.log("month :" + d);
+
+                                    prices.push({x: d, y: parseFloat(element[2].replace(",", ""))})
                                 });;
                                 console.log(prices);
                                 initMap(prices,  frm.serialize().split("=")[1]);
@@ -51,7 +66,11 @@
                     text: companyName + " stock"
                 },
                 axisY:{
-                    includeZero: false
+                    includeZero: false,
+                    title: "value ($)"
+                },
+                axisY: {
+                    title: "Date"
                 },
                 data: [{        
                     type: "line",
