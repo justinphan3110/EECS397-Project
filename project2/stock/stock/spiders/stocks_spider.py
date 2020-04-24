@@ -3,11 +3,24 @@ from influxdb import InfluxDBClient
 from time import time
 import pdb
 import random
+import re
+
 class StockSpider(scrapy.Spider):
-  companyList = ["MSFT", "FB", "AMZN", "GOOGL", "AAPL", "INTC", "NKE", "SBUX", "EBAY", "WMT", "AMD"]  
+  companyList = []  
   name = "stock"
   start_urls = ['https://finance.yahoo.com/quote/']
-  db = InfluxDBClient ("localhost", 8086);
+  db = InfluxDBClient ("localhost", 8086)
+
+  def __init__(self, *a, **kw):
+    super(MySpider, self).__init__(*a, **kw)
+    # your code here
+    with open("NASDAQ.txt") as file_in:
+    lines = []
+    for line in file_in:
+        res = line.split(sep, 1)[0]
+        self.companyList.append(res)
+
+
   def parse(self, response):
       for company in self.companyList:
           link = self.start_urls[0] + company + '/'
