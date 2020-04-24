@@ -13,7 +13,7 @@ class StockSpider(scrapy.Spider):
     with open("NASDAQ.txt", "r") as file_in:
       for line in file_in:
         res = line.split( '\t', 1)[0]
-        companyList.append(res)
+        self.companyList.append(res)
 
   def parse(self, response):
       for company in self.companyList:
