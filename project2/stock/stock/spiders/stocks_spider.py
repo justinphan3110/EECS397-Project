@@ -15,8 +15,7 @@ class StockSpider(scrapy.Spider):
     super(MySpider, self).__init__(*a, **kw)
     # your code here
     with open("NASDAQ.txt") as file_in:
-    lines = []
-    for line in file_in:
+      for line in file_in:
         res = line.split(sep, 1)[0]
         self.companyList.append(res)
 
