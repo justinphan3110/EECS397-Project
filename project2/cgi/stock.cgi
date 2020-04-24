@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ENDPOINT="35.238.226.140:3001/"
+ENDPOINT="35.225.20.167:3001/"
 
 function stock_data {
     q=($QUERY_STRING)
