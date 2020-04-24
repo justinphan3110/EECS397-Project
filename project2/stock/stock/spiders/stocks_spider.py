@@ -9,11 +9,18 @@ class StockSpider(scrapy.Spider):
   start_urls = ['https://finance.yahoo.com/quote/']
   db = InfluxDBClient ("localhost", 8086)
   
+  def __init__(self, name=None, **kwargs):
+    with open("NASDAQ.txt", "r") as file_in:
+      for line in file_in:
+        res = line.split(sep, 1)[0]
+        print(res)
+
   def parse(self, response):
       for company in self.companyList:
           link = self.start_urls[0] + company + '/'
           print(link)
           yield scrapy.Request(link, callback = self.crawStock, meta = {'companyName' : company})
+
   def crawStock(self, response): 
       companyName = response.meta.get('companyName')
       self.db.switch_database("stock")
