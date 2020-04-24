@@ -4,17 +4,11 @@ from time import time
 import pdb
 import random
 class StockSpider(scrapy.Spider):
-  companyList = []  
+  companyList = ["MSFT", "FB", "AMZN", "GOOGL", "AAPL", "INTC", "NKE", "SBUX", "EBAY", "WMT", "AMD"]  
   name = "stock"
   start_urls = ['https://finance.yahoo.com/quote/']
   db = InfluxDBClient ("localhost", 8086)
   
-  def __init__(self, name=None, **kwargs):
-    with open("NASDAQ.txt", "r") as file_in:
-      for line in file_in:
-        res = line.split( '\t', 1)[0]
-        self.companyList.append(res)
-
   def parse(self, response):
       for company in self.companyList:
           link = self.start_urls[0] + company + '/'
