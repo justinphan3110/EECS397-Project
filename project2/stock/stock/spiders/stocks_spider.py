@@ -11,8 +11,7 @@ class StockSpider(scrapy.Spider):
   start_urls = ['https://finance.yahoo.com/quote/']
   db = InfluxDBClient ("localhost", 8086)
 
-  def __init__(self, *a, **kw):
-    super(MySpider, self).__init__(*a, **kw)
+  def __init__(self, name=None, **kwargs):
     # your code here
     with open("NASDAQ.txt") as file_in:
       for line in file_in:
