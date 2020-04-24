@@ -12,7 +12,7 @@ class StockSpider(scrapy.Spider):
   def __init__(self, name=None, **kwargs):
     with open("NASDAQ.txt", "r") as file_in:
       for line in file_in:
-        res = line.split(sep, 1)[0]
+        res = line.split( '\t', 1)[0]
         print(res)
 
   def parse(self, response):
