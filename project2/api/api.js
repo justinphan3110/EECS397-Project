@@ -25,7 +25,7 @@ app.get("/:company", (req, res) => {
     .query(req.params.company.toUpperCase().split('=')[1])
     .where('time', 'now() - 30m', '>')
     .then((data) => {
-        // console.log("Data: " + data.results.series);
+        console.log("Data: " + data.results.series);
         if(data.results[0].series !== undefined){
             res.json((data.results[0].series[0].values));
         }
