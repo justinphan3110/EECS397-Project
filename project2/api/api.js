@@ -23,7 +23,7 @@ app.get("/:company", (req, res) => {
   console.log("calling query: "+ req.params.company.toUpperCase());
   client
     .query(req.params.company.toUpperCase().split('=')[1])
-    // .where('time', 'now - 300m', '>')
+    .where('time', 'now() - 30m', '>')
     .then((data) => {
         // console.log("Data: " + data.results.series);
         if(data.results[0].series !== undefined){
