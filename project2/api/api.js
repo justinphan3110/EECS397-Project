@@ -22,8 +22,8 @@ app.get("/test", (req, res) => {
 app.get("/:company", (req, res) => {
   console.log("calling query: "+ req.params.company.toUpperCase());
   client
-    .query(req.params.company.toUpperCase().split('=')[1])
-    .where('time', 'now() - 30m', '>')
+    .query("SELECT * from req.params.company.toUpperCase().split('=')[1]")
+    // .where('time', 'now() - 30m', '>')
     .then((data) => {
         console.log("Data: " + data.results.series);
         if(data.results[0].series !== undefined){
